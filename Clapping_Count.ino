@@ -13,6 +13,7 @@
 // Define pins
 const int pinSound = A1; // A1
 const int pinBuzzer = 4; // D4
+const int pinButton = 3; // D3
 rgb_lcd lcd; // I2C Socket
 
 // Define variables
@@ -44,13 +45,13 @@ void setup() {
 
   // Randomize buzzer beeps
   randomSeed(analogRead(A0)); // random seed once, using an unconnected analog pin
-  buzzCount = random(1,16) // 1 to 15
+  buzzCount = random(1,16); // 1 to 15
   buzzer(buzzCount);
 
   // Display clap count
   lcd.clear();
   lcd.print("Claps: ");
-  lcd.setCursor(6, 0);
+  lcd.setCursor(7, 0);
   lcd.print(clapCount);
 }
 
@@ -71,7 +72,7 @@ void loop() {
         // LCD update
         lcd.clear();
         lcd.print("Claps: ");
-        lcd.setCursor(6, 0);
+        lcd.setCursor(7, 0);
         lcd.print(clapCount);
         delay(500);
     }
@@ -92,12 +93,12 @@ void loop() {
           lcd.print("Wrong, try again!");
           clapCount = 0;
           delay(1000);
-          buzzer(clapCount);
+          buzzer(buzzCount);
 
           // Display touch count
           lcd.clear();
-          lcd.print("Touches: ");
-          lcd.setCursor(9, 0);
+          lcd.print("Claps: ");
+          lcd.setCursor(7, 0);
           lcd.print(clapCount);
         }
     }
