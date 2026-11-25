@@ -12,6 +12,7 @@
 // Define pins
 const int pinTouch = 2; // D2
 const int pinBuzzer = 4; // D4
+const int pinButton = 3; // D3
 rgb_lcd lcd; // I2C Socket
 
 // Define variables
@@ -19,6 +20,8 @@ bool wasTouched = false;
 int buzzCount = 0;
 int touchCount = 0;
 bool puzzleComplete = false;
+
+void buzzer(int count);
 
 void setup() {
     // Pins setup
@@ -28,18 +31,35 @@ void setup() {
     // LCD
     lcd.begin(16, 2);
     lcd.setRGB(0, 0, 255); // Blue backlight
-    lcd.print("Touch the sensor with the same amount of buzzes as the buzzer");
+    lcd.print("Touch sensor the");
+    lcd.setCursor(0, 1);
+    lcd.print("number of buzzes.");
+    delay(2000);
+    lcd.clear();
+    lcd.print("Press button");
+    lcd.setCursor(0, 1);
+    lcd.print("to confirm.");
+    delay(2000);
 
     // Randomize buzzer beeps
     randomSeed(analogRead(A0)); // random seed once, using an unconnected analog pin
-    buzzCount = random(1,16) // 1 to 15
-    for (i = 0; i < buzzCount; i++) {
-    digitalWrite(pinBuzzer, HIGH);
-    delay(500);
-    }
+    buzzCount = random(1,16); // 1 to 15
+    buzzer(buzzCount);
 
+    // Display touch count
     lcd.clear();
+    lcd.print("Touches: ");
+    lcd.setCursor(9, 0);
     lcd.print(touchCount);
+}
+
+void buzzer(int count) {
+  for (int i = 0; i < count; i++) {
+      digitalWrite(pinBuzzer, HIGH);
+      delay(200);
+      digitalWrite(pinBuzzer, LOW);
+      delay(500);
+    }
 }
 
 void loop() {
@@ -51,15 +71,37 @@ void loop() {
         touchCount++;
         // LCD update
         lcd.clear();
+        lcd.print("Touches: ");
+        lcd.setCursor(9, 0);
         lcd.print(touchCount);
-        if (touchCount == buzzCount) {
-            lcd.clear();
-            lcd.print("Moving to next puzzle!");
-            delay(1000);
-            puzzleComplete = true;
-        }
     }
 
     // Prevent from counting while holding
     wasTouched = touched; // update at the end of every loop
+
+    // Read button presses
+    bool pressed = (digitalRead(pinButton) == HIGH);
+    if (pressed) {
+      // Check if counts match up
+      if (touchCount == buzzCount) {
+            // Complete puzzle if counts match up
+            lcd.clear();
+            lcd.print("Puzzle complete!");
+            delay(1000);
+            puzzleComplete = true;
+        } else {
+          // Otherwise, try buzzes again
+          lcd.clear();
+          lcd.print("Wrong, try again!");
+          touchCount = 0;
+          delay(1000);
+          buzzer(buzzCount);
+
+          // Display touch count
+          lcd.clear();
+          lcd.print("Touches: ");
+          lcd.setCursor(9, 0);
+          lcd.print(touchCount);
+        }
+    }
 }
