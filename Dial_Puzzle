@@ -1,11 +1,3 @@
-#include <Wire.h>
-#include "rgb_lcd.h"
-rgb_lcd lcd;
-
-//Sensor pins
-const int pinDial = A0;
-const int pinBuzzer = 5;
-
 //Angle and hold time assignment
 int randomMinAngle = 300;
 int randomMaxAngle = 700;
