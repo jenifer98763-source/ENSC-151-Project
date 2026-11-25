@@ -39,13 +39,26 @@ void setup() {
     digitalWrite(pinBuzzer, HIGH);
     delay(500);
   }
+
+  // Display count
+  lcd.clear();
+  lcd.print(clapCount);
 }
 
 void loop() {
     // Read sound sensor
     int sensorValue = analogRead(pinSound);
-    if(sensorValue>thresholdValue) {
+    if (sensorValue > thresholdValue) {
         clapCount++;
-        delay(200);
+        // LCD update
+        lcd.clear();
+        lcd.print(clapCount);
+        delay(500);
+        if (clapCount == buzzCount) {
+            lcd.clear();
+            lcd.print("Moving to next puzzle!");
+            delay(1000);
+            puzzleComplete = true;
+        }
     }
 }
