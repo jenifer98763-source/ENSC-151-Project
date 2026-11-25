@@ -21,14 +21,6 @@
     - Light readings are printed to the Serial Monitor so DARK_THRESHOLD
       and LIGHT_THRESHOLD can be adjusted if the room is brighter or
       dimmer than expected.
-    - There is no reset button. To play again after the puzzle has been
-      solved, power-cycle the Arduino (or press its reset button).
-
-  Hardware:
-    - Light sensor on A0
-    - Grove RGB LCD (16x2, I2C)
-
-  Libraries: Wire, rgb_lcd
 */
 
 const int DARK_THRESHOLD  = 200;   // stage 1: reading must be at or below this
