@@ -1,9 +1,3 @@
-#include <Wire.h>
-#include "rgb_lcd.h"
-
-rgb_lcd lcd;
-
-const int BUTTON_PIN = 4;   // change to your button's port
 int difficulty = 0;         // 0 = Easy, 1 = Medium, 2 = Hard
 String names[] = {"Easy", "Medium", "Hard"};
 
@@ -29,9 +23,9 @@ void showDifficulty() {
 void chooseDifficulty() {
   showDifficulty();
   while (true) {
-    if (digitalRead(BUTTON_PIN) == HIGH) {
+    if (digitalRead(pinButton) == HIGH) {
       unsigned long start = millis();
-      while (digitalRead(BUTTON_PIN) == HIGH) {}   // wait for release
+      while (digitalRead(pinButton) == HIGH) {}   // wait for release
 
       if (millis() - start >= 1000) {
         return;                                    // held: confirm
@@ -44,7 +38,7 @@ void chooseDifficulty() {
 }
 
 void setup() {
-  pinMode(BUTTON_PIN, INPUT);
+  pinMode(pinButton, INPUT);
   lcd.begin(16, 2);
   lcd.setRGB(0, 150, 255);
 
