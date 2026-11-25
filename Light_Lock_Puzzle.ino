@@ -121,8 +121,7 @@ void loop() {
     secsLeft = (remaining + 999) / 1000;
   }
 
-  bool conditionMet = (stage == 1) ? (light <= DARK_THRESHOLD)
-                                   : (light >= LIGHT_THRESHOLD);
+  bool conditionMet = (stage == 1) ? (light <= DARK_THRESHOLD) : (light >= LIGHT_THRESHOLD);
   unsigned long holdMs = (stage == 1) ? COVER_HOLD_MS : LIGHT_HOLD_MS;
 
   if (conditionMet) {
