@@ -34,7 +34,7 @@
 #include <Wire.h>
 #include "rgb_lcd.h"
 
-const int pinLight = A1;
+const int pinLight = A2;
 
 const int DARK_THRESHOLD  = 200;   // stage 1: reading must be at or below this
 const int LIGHT_THRESHOLD = 700;   // stage 2: reading must be at or above this
