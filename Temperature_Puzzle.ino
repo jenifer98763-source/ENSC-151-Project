@@ -1,9 +1,3 @@
-#include <Wire.h>
-#include <math.h>
-#include "rgb_lcd.h"
-
-rgb_lcd lcd;
-
 const int pinTemp = A0;    // Temperature sensor in A0
 const int pinDial = A1;     // Rotary angle sensor in A1
 const int pinBuzzer = 8;   // Buzzer pin in D8

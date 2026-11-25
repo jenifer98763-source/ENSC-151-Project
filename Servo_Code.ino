@@ -1,13 +1,3 @@
-#include <Wire.h>
-#include "rgb_lcd.h"
-#include <Servo.h>
-rgb_lcd lcd;
-
-int pinServo = 3;
-int pinBuzzer = 8;
-
-Servo groveServo;
-
 void setup() {
  
   groveServo.attach(pinServo);

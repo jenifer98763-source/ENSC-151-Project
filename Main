@@ -1,7 +1,10 @@
 #include <Wire.h>
 #include <Servo.h>
+#include <math.h>
 #include "rgb_lcd.h"
+
 rgb_lcd lcd;
+Servo groveServo;
 
 const int pinTemp = A0; // Temperature sensor in A0
 const int pinDial = A1; // Rotary angle sensor in A1
