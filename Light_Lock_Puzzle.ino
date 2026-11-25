@@ -31,11 +31,6 @@
   Libraries: Wire, rgb_lcd
 */
 
-#include <Wire.h>
-#include "rgb_lcd.h"
-
-const int LIGHT_PIN = A0;
-
 const int DARK_THRESHOLD  = 200;   // stage 1: reading must be at or below this
 const int LIGHT_THRESHOLD = 700;   // stage 2: reading must be at or above this
 
@@ -43,12 +38,12 @@ const unsigned long COVER_HOLD_MS  = 4000;
 const unsigned long LIGHT_HOLD_MS  = 4000;
 const unsigned long STAGE2_TIME_MS = 10000;  // time allowed to finish stage 2
 
-rgb_lcd lcd;
-
 int stage = 1;                       // 1 = cover, 2 = flashlight, 3 = done
 unsigned long holdStart = 0;
 unsigned long lastPrint = 0;
 unsigned long stage2Start = 0;
+
+int puzzleCount;
 
 enum Screen { NONE, WAIT, HOLD };
 Screen shown = NONE;
@@ -73,9 +68,9 @@ void completeStage() {
     stage2Start = millis();          // start the stage 2 clock
   } else {
     stage = 3;
+    puzzleCount++;
     setColor(0, 255, 0);
-    printLine(0, "Puzzle solved!");
-    printLine(1, "You escaped!");
+    lcd.print("Puzzle solved!");
   }
 }
 
@@ -104,7 +99,7 @@ void loop() {
   // Puzzle solved: nothing more to do until the Arduino is power-cycled
   if (stage == 3) return;
 
-  int light = analogRead(LIGHT_PIN);
+  int light = analogRead(pinLight);
   unsigned long now = millis();
 
   // Print readings twice a second so you can tune the thresholds
@@ -140,6 +135,7 @@ void loop() {
     }
 
     setColor(255, 180, 0);
+
     if (shown != HOLD) {
       printLine(0, (stage == 1) ? "1/2 Hold it..." : "2/2 Hold it...");
       shown = HOLD;
