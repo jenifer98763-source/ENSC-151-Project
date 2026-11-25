@@ -38,8 +38,6 @@ const unsigned long COVER_HOLD_MS  = 4000;
 const unsigned long LIGHT_HOLD_MS  = 4000;
 const unsigned long STAGE2_TIME_MS = 10000;  // time allowed to finish stage 2
 
-rgb_lcd lcd;
-
 int stage = 1;                       // 1 = cover, 2 = flashlight, 3 = done
 unsigned long holdStart = 0;
 unsigned long lastPrint = 0;
