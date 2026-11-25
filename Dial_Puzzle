@@ -1,0 +1,146 @@
+#include <Wire.h>
+#include "rgb_lcd.h"
+rgb_lcd lcd;
+
+//Sensor pins
+const int pinDial = A0;
+const int pinBuzzer = 5;
+
+//Angle and hold time assignment
+int randomMinAngle = 300;
+int randomMaxAngle = 700;
+const unsigned long holdMS = 1500;
+
+//counters
+int stage = 1;
+int puzzleCount = 0;
+unsigned long holdStart = 0;
+bool holding = false;
+
+//checks if dial is in range of min and max angles
+bool inRange(int val, int low, int high) {
+  return val >= low && val <= high;
+}
+
+//randomizes min and max angle range
+void newRange() {
+  randomMinAngle = random(150, 500);
+  int span = random(200, 400);
+  randomMaxAngle = min(1023, randomMinAngle + span);
+}
+
+void resetPuzzle() {
+  stage = 1;
+  holding = false;
+  lcd.clear();
+  lcd.setRGB(200, 40, 40);
+  lcd.setCursor(0, 0);
+  lcd.print("Over-rotated!");
+  lcd.setCursor(0, 1);
+  lcd.print("Restarting...");
+  tone(pinBuzzer, 220, 350);
+  delay(800);
+  lcd.clear();
+  lcd.setRGB(40, 90, 200);
+}
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(pinDial, INPUT);
+  pinMode(pinBuzzer, OUTPUT);
+
+  randomSeed(analogRead(A2));
+  newRange();
+
+  lcd.begin(16, 2);
+  lcd.setRGB(40, 90, 200);
+  lcd.setCursor(0, 0);
+  lcd.print("Dial Puzzle");
+  delay(1000);
+  lcd.clear();
+}
+
+void loop() {
+  if (stage >= 3) {
+    lcd.clear();
+    lcd.setRGB(40, 200, 140);
+    lcd.setCursor(0, 0);
+    lcd.print("Puzzle Solved!");
+    lcd.setCursor(0, 1);
+    lcd.print("Count: ");
+    lcd.print(puzzleCount);
+
+    tone(pinBuzzer, 1000);
+    delay(200);
+    tone(pinBuzzer, 1500);
+    delay(200);
+    noTone(pinBuzzer);
+    delay(2000);
+
+    // Reset for the next round
+    puzzleCount++;
+    stage = 1;
+    holding = false;
+    newRange();
+    lcd.clear();
+    lcd.setRGB(40, 90, 200);
+    return;
+  }
+
+  int angle = analogRead(pinDial);
+
+  // Turning dial past random maximum angle resets progress
+  if (angle > randomMaxAngle) {
+    resetPuzzle();
+    return;
+  }
+
+  if (inRange(angle, randomMinAngle, randomMaxAngle)) {
+    if (!holding) {
+      holding = true;
+      holdStart = millis();
+      tone(pinBuzzer, 880, 80);
+    }
+
+    unsigned long elapsed = millis() - holdStart;
+    unsigned long percentage = min(100UL, (elapsed * 100UL) / holdMS);
+
+    lcd.setRGB(40, 180, 90);
+    lcd.setCursor(0, 0);
+    lcd.print("Stage ");
+    lcd.print(stage);
+    lcd.print(": Hold!   ");
+
+    lcd.setCursor(0, 1);
+    lcd.print("Val:");
+    lcd.print(angle);
+    lcd.print(" ");
+    lcd.print(percentage);
+    lcd.print("%   ");
+
+    if (elapsed >= holdMS) {
+      holding = false;
+      tone(pinBuzzer, 1320, 180);
+      stage++;
+      lcd.clear();
+    }
+  } else {
+    holding = false;
+    lcd.setRGB(40, 90, 200);
+    lcd.setCursor(0, 0);
+    lcd.print("Stage ");
+    lcd.print(stage);
+    if (angle < randomMinAngle) {
+      lcd.print(": Turn CW ");
+    } else {
+      lcd.print(": Turn CCW");
+    }
+
+    lcd.setCursor(0, 1);
+    lcd.print("Knob: ");
+    lcd.print(angle);
+    lcd.print("      ");
+  }
+
+  delay(50);
+}
