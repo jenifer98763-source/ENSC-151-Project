@@ -1,5 +1,10 @@
-// ENSC 151 Project
-// Touch Count puzzle
+// ENSC 151 Project - Touch Count puzzle
+/** Description:
+ * Buzzer beeps X times → user must touch the sensor X times
+ * Must be done within a certain time window
+ * Does not consider how long pauses are between touches, as long as they are done for correct amount
+ * Display instructions on LCD
+ */
 
 #include <Wire.h>
 #include "rgb_lcd.h"
