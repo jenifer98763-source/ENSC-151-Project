@@ -27,8 +27,6 @@ unsigned long holdStart = 0;
 unsigned long lastPrint = 0;
 unsigned long stage2Start = 0;
 
-int puzzleCount;
-
 enum Screen { NONE, WAIT, HOLD };
 Screen shown = NONE;
 
