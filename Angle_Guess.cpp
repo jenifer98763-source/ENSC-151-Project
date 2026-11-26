@@ -95,7 +95,7 @@ static void begin_() {
       if (abs(diff) <= 5) { //gives buffer zone so that puzzle isn't impossible
         puzzleCount++;
         lcd.clear();
-        lcd.setRGB(40, 200, 100);
+        lcd.setRGB(0, 0, 255);
         lcd.setCursor(0, 0);
         lcd.print("Puzzle Solved!");
         lcd.setCursor(0, 1);
