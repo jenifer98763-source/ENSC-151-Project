@@ -1,19 +1,14 @@
-#include <Wire.h>
-#include "rgb_lcd.h"
-rgb_lcd lcd;
+#include "puzzles.h"
 
-const int pinDial = A0;
-const int pinBuzzer = 8;
-const int pinButton = 3;
+//Declare variables
+static int targetAngle = 0;
+static int displayedAngle = 0;
+static int triesLeft = 5;
+static int puzzleCount = 0;
+static int prevButtonState = LOW;
+static String lastHint = "Turn & press btn";
 
-int targetAngle = 0;
-int displayedAngle = 0;
-int triesLeft = 5;
-int puzzleCount = 0;
-int prevButtonState = LOW;
-String lastHint = "Turn & press btn";
-
-void startNewRound() {
+static void startNewRound() {
   targetAngle = random(0, 271);
   triesLeft = 5;
   lastHint = "Turn & press btn";
@@ -22,27 +17,14 @@ void startNewRound() {
 }
 
 //accounts for human error when pressing the button (i.e. we can't take our finger off the button very quickly and the computer might register it as 2 button clicks)
-void waitForButtonPress() {
-  // Wait for any current press to finish
-  while (digitalRead(pinButton) == HIGH) {
-    delay(10);
-  }
-  delay(20);
-
-  // Wait for a new button press
-  while (digitalRead(pinButton) == LOW) {
-    delay(10);
-  }
-  delay(40); 
-
-  // Wait for release so it only triggers once per press
-  while (digitalRead(pinButton) == HIGH) {
-    delay(10);
-  }
-  delay(20);
+static void waitForButtonPress() {
+  while (digitalRead(pinButton) == HIGH) delay(10); // Wait for any current press to finish
+  while (digitalRead(pinButton) == LOW) delay(10); // Wait for a new button press
+  while (digitalRead(pinButton) == HIGH) delay(10); //// Wait for release so it only triggers once per press
 }
 
-void showInstructions() {
+//function for all initial instructions
+static void showInstructions() {
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Pick 0-270 deg  ");
@@ -65,13 +47,7 @@ void showInstructions() {
   waitForButtonPress();
 }
 
-void setup() {
-  pinMode(pinDial, INPUT);
-  pinMode(pinBuzzer, OUTPUT);
-  pinMode(pinButton, INPUT);
-
-  Serial.begin(9600);
-  randomSeed(analogRead(A2));
+static void begin_() {
 
   lcd.begin(16, 2);
   lcd.setRGB(255, 255, 255);
@@ -84,9 +60,8 @@ void setup() {
   
   showInstructions();
   startNewRound();
-}
 
-void loop() {
+  //read angle and button state
   int currentAngle = analogRead(pinDial);
   int buttonState = digitalRead(pinButton);
   int angleRange = map(currentAngle, 0, 1023, 0, 270);
@@ -143,11 +118,6 @@ void loop() {
         lcd.print("Target was ");
         lcd.print(targetAngle);
 
-        tone(pinBuzzer, 260, 250);
-        delay(270);
-        tone(pinBuzzer, 180, 400);
-        delay(1800);
-
         startNewRound();
       } else {
         if (angleRange < targetAngle) {
@@ -165,3 +135,5 @@ void loop() {
   prevButtonState = buttonState;
   delay(50);
 }
+
+Puzzle Angle_Guess = { begin_ };
