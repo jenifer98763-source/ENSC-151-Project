@@ -11,10 +11,10 @@ static const int secretCount = 9; // the secret number of presses
 static unsigned long lastRelease = 0; // time the button was last released
 
 static void begin_() {
-    lcd.begin(16, 2);                           // set up the LCD's number of columns and rows
-    lcd.setRGB(0, 0, 255);                      // blue backlight while waiting
+    lcd.begin(16, 2); // set up the LCD's number of columns and rows
+    lcd.setRGB(0, 0, 255); // blue backlight while waiting
 
-    pinMode(PIN_BUTTON, INPUT);                  // set button INPUT
+    pinMode(PIN_BUTTON, INPUT); // set button INPUT
 
     lcd.print("Secret code?");
     lcd.setCursor(0, 1);
