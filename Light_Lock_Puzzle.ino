@@ -27,7 +27,7 @@ static unsigned long holdStart = 0;
 static unsigned long lastPrint = 0;
 static unsigned long stage2Start = 0;
 
-enum Screen { NONE, WAIT, HOLD };
+static enum Screen { NONE, WAIT, HOLD };
 Screen shown = NONE;
 
 void setColor(int r, int g, int b) { lcd.setRGB(r, g, b); }
@@ -77,7 +77,7 @@ void setup() {
   lcd.begin(16, 2);
 }
 
-void loop() {
+static void update_() {
   // Puzzle solved: nothing more to do until the Arduino is power-cycled
   if (stage == 3) return;
 
