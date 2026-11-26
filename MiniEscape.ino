@@ -25,7 +25,7 @@ const int pinTouch = 4; //Touch Sensor in D4
 const int pinBuzzer = 8;  // Buzzer pin in D8
 
 int puzzleCount = 0;
-int difficulty = 0;         // 0 = Easy, 1 = Medium, 2 = Hard
+int difficulty = 0; // 0 = Easy, 1 = Medium, 2 = Hard
 String names[] = {"Easy", "Medium", "Hard"};
 
 void setDifficultyColor() {
