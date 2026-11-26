@@ -75,7 +75,9 @@ void timeUp() {
 
 void showCountdown(int secs) {
   lcd.setCursor(14, 0);
-  if (secs < 10) lcd.print(' ');
+  if (secs < 10) {
+     lcd.print(' ');
+  }
   lcd.print(secs);
 }
 
@@ -94,8 +96,10 @@ static void update_() {
 
   // Print readings twice a second so you can tune the thresholds
   if (now - lastPrint > 500) {
-    Serial.print("Stage "); Serial.print(stage);
-    Serial.print("  Light: "); Serial.println(light);
+    Serial.print("Stage ");
+    Serial.print(stage);
+    Serial.print("  Light: ");
+    Serial.println(light);
     lastPrint = now;
   }
 
