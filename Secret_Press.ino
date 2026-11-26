@@ -12,7 +12,6 @@
 rgb_lcd lcd;
 
 const int pinButton   = 3;                      // pin of button
-const int pinLed      = 7;                      // pin of LED
 const int secretCount = 9;                      // the secret number of presses
 
 int pressCount = 0;                             // how many times the button was pressed
@@ -26,8 +25,6 @@ void setup()
     lcd.setRGB(0, 0, 255);                      // blue backlight while waiting
 
     pinMode(pinButton, INPUT);                  // set button INPUT
-    pinMode(pinLed, OUTPUT);                    // set LED OUTPUT
-    digitalWrite(pinLed, LOW);
 
     lcd.print("Secret code?");
     lcd.setCursor(0, 1);
@@ -61,10 +58,8 @@ void loop()
         {
             puzzleCount++;
             lcd.setRGB(0, 255, 0);              // green backlight
-            digitalWrite(pinLed, HIGH);         // LED on
             lcd.print("Unlocked!");
             delay(3000);
-            digitalWrite(pinLed, LOW);          // LED off
         }
         else
         {
