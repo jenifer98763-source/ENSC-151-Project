@@ -7,25 +7,18 @@
  * Display instructions on LCD
  */
 
-#include <Wire.h>
-#include "rgb_lcd.h"
-
-// Define pins
-const int pinSound = A1; // A1
-const int pinBuzzer = 4; // D4
-const int pinButton = 3; // D3
-rgb_lcd lcd; // I2C Socket
+#include "puzzles.h"
 
 // Define variables
-bool wasTouched = false;
-int buzzCount = 0;
-int clapCount = 0;
-bool puzzleComplete = false;
-int thresholdValue = 300; // sound sensor threshold value
+static bool wasTouched = false;
+static int buzzCount = 0;
+static int clapCount = 0;
+static bool puzzleComplete = false;
+static int thresholdValue = 300; // sound sensor threshold value
 
 void buzzer(int count);
 
-void setup() {
+static void begin_() {
   // Pins setup
   pinMode(pinSound, INPUT);
   pinMode(pinBuzzer, OUTPUT);
@@ -55,7 +48,7 @@ void setup() {
   lcd.print(clapCount);
 }
 
-void buzzer(int count) {
+static void buzzer(int count) {
   for (int i = 0; i < count; i++) {
       digitalWrite(pinBuzzer, HIGH);
       delay(200);
@@ -64,7 +57,7 @@ void buzzer(int count) {
     }
 }
 
-void loop() {
+static bool update_() {
     // Read sound sensor
     int sensorValue = analogRead(pinSound);
     if (sensorValue > thresholdValue) {
@@ -102,4 +95,8 @@ void loop() {
           lcd.print(clapCount);
         }
     }
+
+    return puzzleComplete;
 }
+
+Puzzle Clapping_Count = { begin_, update_ };
