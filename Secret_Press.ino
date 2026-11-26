@@ -10,8 +10,7 @@ static bool puzzleComplete = false;
 static const int secretCount = 9; // the secret number of presses
 static unsigned long lastRelease = 0; // time the button was last released
 
-static void begin_()
-{
+static void begin_() {
     lcd.begin(16, 2);                           // set up the LCD's number of columns and rows
     lcd.setRGB(0, 0, 255);                      // blue backlight while waiting
 
@@ -22,11 +21,10 @@ static void begin_()
     lcd.print("Press the button");
 }
 
-static bool update_()
-{
-    if(digitalRead(PIN_BUTTON))                  // when button is pressed
-    {
-        pressCount++;                           // add one press
+static bool update_() {
+    // when button is pressed
+    if (digitalRead(PIN_BUTTON)) {
+        pressCount++; // add one press
 
         lcd.setRGB(0, 0, 255);
         lcd.clear();
@@ -34,34 +32,28 @@ static bool update_()
         lcd.print(pressCount);
 
         delay(50);
-        while(digitalRead(PIN_BUTTON));          // wait until button is released
+        while(digitalRead(PIN_BUTTON)); // wait until button is released
         delay(50);
 
-        lastRelease = millis();                 // start the 2 second timer from release
+        lastRelease = millis(); // start the 2 second timer from release
     }
 
     // 2 seconds after the last release, check the answer
-    if(pressCount > 0 && millis() - lastRelease > 2000)
-    {
+    if (pressCount > 0 && millis() - lastRelease > 2000) {
         lcd.clear();
-
-        if(pressCount == secretCount)
-        {
-            puzzleCount++;
-            lcd.setRGB(0, 255, 0);              // green backlight
+        
+        if (pressCount == secretCount) {
+            lcd.setRGB(0, 255, 0); // green backlight
             lcd.print("Unlocked!");
             delay(3000);
             puzzleComplete = true;
         }
-        else
-        {
-            lcd.setRGB(255, 0, 0);              // red backlight
-            if(pressCount < secretCount)
-            {
+        else {
+            lcd.setRGB(255, 0, 0); // red backlight
+            if(pressCount < secretCount) {
                 lcd.print("Too few!");
             }
-            else
-            {
+            else {
                 lcd.print("Too many!");
             }
             lcd.setCursor(0, 1);
@@ -69,7 +61,7 @@ static bool update_()
             delay(2000);
         }
 
-        pressCount = 0;                         // start over
+        pressCount = 0; // start over
 
         lcd.setRGB(0, 0, 255);
         lcd.clear();
