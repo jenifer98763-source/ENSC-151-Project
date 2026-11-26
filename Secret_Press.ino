@@ -4,12 +4,13 @@
 // otherwise the lcd turns red and tells you if you pressed too few or too many
 // Grove - Button connect to D3
 // Grove - LCD RGB Backlight connect to I2C
+#include "puzzles.h"
 
-const int secretCount = 9;                      // the secret number of presses
+static bool puzzleComplete = false;
+static const int secretCount = 9; // the secret number of presses
+static unsigned long lastRelease = 0; // time the button was last released
 
-unsigned long lastRelease = 0;                  // time the button was last released
-
-void setup()
+static void begin_()
 {
     lcd.begin(16, 2);                           // set up the LCD's number of columns and rows
     lcd.setRGB(0, 0, 255);                      // blue backlight while waiting
@@ -21,7 +22,7 @@ void setup()
     lcd.print("Press the button");
 }
 
-void loop()
+static bool update_()
 {
     if(digitalRead(PIN_BUTTON))                  // when button is pressed
     {
@@ -50,6 +51,7 @@ void loop()
             lcd.setRGB(0, 255, 0);              // green backlight
             lcd.print("Unlocked!");
             delay(3000);
+            puzzleComplete = true;
         }
         else
         {
@@ -75,4 +77,6 @@ void loop()
         lcd.setCursor(0, 1);
         lcd.print("Press the button");
     }
+    return puzzleComplete;
 }
+Puzzle Secret_Press = { begin_, update_ };
