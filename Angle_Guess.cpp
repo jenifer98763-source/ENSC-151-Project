@@ -8,9 +8,10 @@ static int puzzleCount = 0;
 static int prevButtonState = LOW;
 static String lastHint = "Turn & press btn";
 
+//new round
 static void startNewRound() {
-  targetAngle = random(0, 271);
-  triesLeft = 5;
+  targetAngle = random(0, 271); //new random target angle
+  triesLeft = 5; //reset tries
   lastHint = "Turn & press btn";
   lcd.clear();
   lcd.setRGB(40, 90, 200);
@@ -46,9 +47,11 @@ static void showInstructions() {
 }
 
 static void begin_() {
+  //pins
   pinMode(PIN_ROTARY, INPUT);
   pinMode(PIN_BUTTON, INPUT);
-  
+
+  //introductory page
   lcd.begin(16, 2);
   lcd.setRGB(255, 255, 255);
   lcd.clear();
@@ -57,16 +60,17 @@ static void begin_() {
   lcd.setCursor(0, 1);
   lcd.print("Puzzle");
   delay(1200);
-  
+
+  //show instructions and begin round
   showInstructions();
   startNewRound();
 
-  //read angle and button state
+  //read angle and button positions
   int currentAngle = analogRead(PIN_ROTARY);
   int buttonState = digitalRead(PIN_BUTTON);
-  int angleRange = map(currentAngle, 0, 1023, 0, 270);
+  int angleRange = map(currentAngle, 0, 1023, 0, 270); //angle from 0-270 degrees
 
-  // Current angle and remaining tries
+  // Display current angle and remaining tries
   lcd.setCursor(0, 0);
   lcd.print("A:");
   lcd.print(angleRange);
@@ -77,17 +81,17 @@ static void begin_() {
   lcd.setCursor(0, 1);
   lcd.print(lastHint);
   
-  //clears last hint letters and stores new hint in blank variable
+  //clears last hint (higher or lower) and stores new hint in blank variable
   for (int i = lastHint.length(); i < 16; i++) {
     lcd.print(" ");
   }
 
-  // Detect new button press
-  if (buttonState == HIGH && prevButtonState == LOW) {
+  if (buttonState == HIGH && prevButtonState == LOW) { //checks if button was pressed and not held
     delay(40); 
-    if (digitalRead(PIN_BUTTON) == HIGH) {
-      int diff = targetAngle - angleRange;
+    if (digitalRead(PIN_BUTTON) == HIGH) { //verifies button is pressed
+      int diff = targetAngle - angleRange; //calculate how close angle is to target angle
 
+      //PUZZLE SOLVED
       if (abs(diff) <= 5) { //gives buffer zone so that puzzle isn't impossible
         puzzleCount++;
         lcd.clear();
@@ -100,10 +104,9 @@ static void begin_() {
         return;
       }
 
-      //one less guess left
-      triesLeft--;
+      triesLeft--; ////if not within target range, one less guess left
 
-      if (triesLeft <= 0) {
+      if (triesLeft <= 0) { //PUZZLE FAILED
         lcd.clear();
         lcd.setRGB(210, 45, 45);
         lcd.setCursor(0, 0);
@@ -113,7 +116,7 @@ static void begin_() {
         lcd.print(targetAngle);
 
         startNewRound();
-      } else {
+      } else { //Prompts user to choose a value higher or lower based on their last guess
         if (angleRange < targetAngle) {
           lastHint = "Higher!         ";
         } else {
