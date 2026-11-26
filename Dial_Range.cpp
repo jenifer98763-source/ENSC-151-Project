@@ -16,6 +16,9 @@ static bool holding = false;
 static bool waitingForZero = false;
 static unsigned long outOfRangeStart = 0;
 
+// Flag for if puzzle is complete
+static bool puzzleComplete = false;
+
 //checks if value is in range and sets inRange=true
 static bool inRange(int val, int low, int high) {
   return val >= low && val <= high;
@@ -124,11 +127,14 @@ static void begin_() {
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Dial Puzzle     ");
-  waitForButtonPress();
+  delay(3000);
 
   showInstructions();
   waitingForZero = true;
   lcd.clear();
+}
+
+static bool update_ () {
 
   int angle = analogRead(PIN_ROTARY);
 
@@ -143,7 +149,6 @@ static void begin_() {
       lcd.setRGB(40, 90, 200);
     }
     delay(50);
-    return;
   }
 
   if (inRange(angle, randomMinAngle, randomMaxAngle)) {
@@ -191,7 +196,6 @@ static void begin_() {
     unsigned long outElapsed = millis() - outOfRangeStart; //calculate time elapsed
     if (outElapsed > timeLimitMS) { //time elapsed > 10 puzzle will reset
       resetPuzzle();
-      return;
     }
 
     unsigned long remainingSec = (timeLimitMS - outElapsed + 999UL) / 1000UL; //calculate remaining time
@@ -206,10 +210,9 @@ static void begin_() {
     lcd.setCursor(0, 0);
     lcd.print("Puzzle Solved!  ");
     lcd.setCursor(0, 1);
-    lcd.print("Completed: ");
-    lcd.print(puzzleCount);
-    return;
+    puzzleComplete = true;
   }
+  return puzzleComplete;
 }
 
 Puzzle Dial_Range = { begin_, update_ };

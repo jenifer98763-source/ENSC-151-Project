@@ -13,8 +13,8 @@ Servo groveServo;
 
 // GAME STATE
 Puzzle* allPuzzles[] = { &Touch_Count, &Clapping_Count, &Light_Lock_Puzzle, 
-                         &Secret_Press, &Angle_Guess, &Dial_Range};
-const int NUM_PUZZLES = 2; // Change depending on how many puzzles are added CHANGE THIS
+                         &Secret_Press, &Dial_Range};
+const int NUM_PUZZLES = 5; // Change depending on how many puzzles are added CHANGE THIS
 
 Puzzle* order[NUM_PUZZLES];   // shuffled puzzles for this game
 int puzzleCount = 0;          // how many to solve (set by difficulty) CHANGE THIS
@@ -63,6 +63,7 @@ void chooseDifficulty() {
       
       while (digitalRead(PIN_BUTTON) == HIGH) {  // held: confirm
         if (millis() - start >= 1000) {
+          beepSuccess();
           confirmed = true;
           break;
         }
@@ -145,6 +146,7 @@ void setup() {
   delay(3000);
 
   groveServo.attach(PIN_SERVO);
+  groveServo.write(90);
   pinMode(PIN_BUZZER, OUTPUT);
   pinMode(PIN_BUTTON, INPUT);
   randomSeed(analogRead(PIN_SOUND) + micros()); // random seed once using a mixed signal
@@ -160,7 +162,6 @@ void loop() {
   if (gameOver) return; // box is open, fully completed
 
   if (order[current]->update()) { // Start "loop()" for the active puzzle
-    beepSuccess();
     // Move index to next puzzle
     current++;
 
@@ -169,7 +170,7 @@ void loop() {
       lcd.clear();
       lcd.print("Box unlocked!");
       // Open box with servo
-      groveServo.write(90);
+      groveServo.write(180);
       gameOver = true;
     } else {
       order[current]->begin(); // start the next puzzle

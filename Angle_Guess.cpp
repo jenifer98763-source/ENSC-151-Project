@@ -4,9 +4,9 @@
 static int targetAngle = 0;
 static int displayedAngle = 0;
 static int triesLeft = 5;
-static int puzzleCount = 0;
 static int prevButtonState = LOW;
 static String lastHint = "Turn & press btn";
+static bool puzzleComplete = false;
 
 //new round
 static void startNewRound() {
@@ -64,6 +64,9 @@ static void begin_() {
   //show instructions and begin round
   showInstructions();
   startNewRound();
+}
+
+static bool update_ () {
 
   //read angle and button positions
   int currentAngle = analogRead(PIN_ROTARY);
@@ -93,7 +96,6 @@ static void begin_() {
 
       //PUZZLE SOLVED
       if (abs(diff) <= 5) { //gives buffer zone so that puzzle isn't impossible
-        puzzleCount++;
         lcd.clear();
         lcd.setRGB(0, 0, 255);
         lcd.setCursor(0, 0);
@@ -101,7 +103,7 @@ static void begin_() {
         lcd.setCursor(0, 1);
         lcd.print("Target: ");
         lcd.print(targetAngle);
-        return;
+        puzzleComplete = true;
       }
 
       triesLeft--; ////if not within target range, one less guess left
@@ -129,6 +131,7 @@ static void begin_() {
 
   prevButtonState = buttonState;
   delay(50);
+  return puzzleComplete;
 }
 
 Puzzle Angle_Guess = { begin_, update_};

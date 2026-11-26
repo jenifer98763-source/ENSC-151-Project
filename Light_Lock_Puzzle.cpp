@@ -54,10 +54,6 @@ void completeStage() {
     stage2Start = millis(); // start the stage 2 clock
   } else {
     stage = 3;
-    lcd.clear();
-    setColor(0, 255, 0);
-    lcd.clear();
-    lcd.print("Puzzle solved!");
     puzzleComplete = true;
   }
 }
@@ -86,9 +82,7 @@ static void begin_() {
   lcd.clear();
 }
 
-static void update_() {
-  // Puzzle solved: nothing more to do until the Arduino is power-cycled
-  if (stage == 3) return;
+static bool update_() {
 
   int light = analogRead(PIN_LIGHT);
   unsigned long now = millis();
@@ -108,7 +102,7 @@ static void update_() {
     long remaining = (long)STAGE2_TIME_MS - (long)(now - stage2Start);
     if (remaining <= 0 && holdStart == 0) {   // don't cut off someone mid-hold
       timeUp();
-      return;
+      return false;
     }
     if (remaining < 0) remaining = 0;
     secsLeft = (remaining + 999) / 1000;
@@ -125,7 +119,7 @@ static void update_() {
 
     if (held >= holdMs) {
       completeStage();
-      return;
+      return false;
     }
 
     setColor(255, 180, 0);
@@ -160,5 +154,13 @@ static void update_() {
   }
 
   delay(50);
+
+  if (puzzleComplete) {
+    lcd.clear();
+    setColor(0, 255, 0);
+    lcd.clear();
+    lcd.print("Puzzle solved!");
+    return puzzleComplete;
+  }
 }
 Puzzle Light_Lock_Puzzle = { begin_, update_ };

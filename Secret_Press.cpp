@@ -7,7 +7,7 @@
 #include "puzzles.h"
 
 static bool puzzleComplete = false;
-static const int secretCount = 9;       // the secret number of presses
+static int secretCount = 1; // the secret number of presses
 static bool unlocked = false; // true once the puzzle is solved
 
 static int pressCount = 0;              // how many times the button was pressed
@@ -16,15 +16,17 @@ static unsigned long lastRelease = 0;   // time the button was last released
 static void showPrompt() {
     lcd.setRGB(0, 0, 255);              // blue backlight while waiting
     lcd.clear();
-    lcd.print("Secret code?");
-    lcd.setCursor(0, 1);
     lcd.print("Press the button");
+    lcd.setCursor(0, 1);
+    lcd.print("1-10 times");
 }
 
 static void begin_() {
     if (unlocked) {
         return;
     }
+
+    secretCount = random(1, 11);
     
     pressCount = 0;
     puzzleComplete = false;
