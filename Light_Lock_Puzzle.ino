@@ -32,7 +32,9 @@ static unsigned long stage2Start = 0;
 static enum Screen { NONE, WAIT, HOLD };
 Screen shown = NONE;
 
-void setColor(int r, int g, int b) { lcd.setRGB(r, g, b); }
+void setColor(int r, int g, int b) { 
+  lcd.setRGB(r, g, b);
+}
 
 void printLine(int row, String text) {
   while (text.length() < 16) text += ' ';
