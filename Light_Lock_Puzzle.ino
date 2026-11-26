@@ -29,9 +29,9 @@ static const unsigned long LIGHT_HOLD_MS  = 4000;
 static const unsigned long STAGE2_TIME_MS = 10000;  // time allowed to finish stage 2
 
 int stage = 1;                       // 1 = cover, 2 = flashlight, 3 = done
-unsigned long holdStart = 0;
-unsigned long lastPrint = 0;
-unsigned long stage2Start = 0;
+static unsigned long holdStart = 0;
+static unsigned long lastPrint = 0;
+static unsigned long stage2Start = 0;
 
 static enum Screen { NONE, WAIT, HOLD };
 Screen shown = NONE;
