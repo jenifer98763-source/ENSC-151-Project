@@ -29,7 +29,7 @@ static unsigned long holdStart = 0;
 static unsigned long lastPrint = 0;
 static unsigned long stage2Start = 0;
 
-static enum Screen { NONE, WAIT, HOLD };
+enum Screen { NONE, WAIT, HOLD };
 Screen shown = NONE;
 
 void setColor(int r, int g, int b) { 
