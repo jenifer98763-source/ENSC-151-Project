@@ -13,14 +13,6 @@
 
     On completing both stages, the LCD turns green and shows
     "Puzzle solved!".
-
-  How it works:
-    - A Grove RGB LCD shows instructions, a progress bar while holding,
-      and a countdown during Stage 2. The backlight color indicates state
-      (red = waiting, amber = holding, green = success).
-    - Light readings are printed to the Serial Monitor so DARK_THRESHOLD
-      and LIGHT_THRESHOLD can be adjusted if the room is brighter or
-      dimmer than expected.
 */
 
 const int DARK_THRESHOLD  = 200;   // stage 1: reading must be at or below this
