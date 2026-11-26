@@ -75,6 +75,7 @@ void setup() {
 
   lcd.begin(16, 2);
   lcd.setRGB(255, 255, 255);
+  lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Angle Guess");
   lcd.setCursor(0, 1);
