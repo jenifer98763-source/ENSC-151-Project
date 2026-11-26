@@ -1,3 +1,11 @@
+// ENSC 151 Project - Main file
+/** Description:
+ * - Introductory display code
+ * - Determines difficulty
+ * - Randomizes puzzles and puzzle order
+ * - Runs puzzles
+ * - Opens the box (servo)
+ */
 #include <Wire.h>
 #include <Servo.h>
 #include <math.h>
