@@ -14,6 +14,8 @@
     On completing both stages, the LCD turns green and shows
     "Puzzle solved!".
 */
+#include "puzzles.h"
+static bool puzzleComplete = false;
 
 static const int DARK_THRESHOLD  = 200;   // stage 1: reading must be at or below this
 static const int LIGHT_THRESHOLD = 700;   // stage 2: reading must be at or above this
@@ -51,8 +53,11 @@ void completeStage() {
   } else {
     stage = 3;
     puzzleCount++;
+    lcd.clear();
     setColor(0, 255, 0);
+    lcd.clear();
     lcd.print("Puzzle solved!");
+    puzzleComplete = true;
   }
 }
 
@@ -72,13 +77,13 @@ void showCountdown(int secs) {
   lcd.print(secs);
 }
 
-void setup() {
+static void begin_() {
   Serial.begin(9600);
   lcd.begin(16, 2);
   lcd.clear();
 }
 
-void loop() {
+static void update_() {
   // Puzzle solved: nothing more to do until the Arduino is power-cycled
   if (stage == 3) return;
 
