@@ -30,7 +30,7 @@ static unsigned long lastPrint = 0;
 static unsigned long stage2Start = 0;
 
 enum Screen { NONE, WAIT, HOLD };
-Screen shown = NONE;
+static Screen shown = NONE;
 
 void setColor(int r, int g, int b) { 
   lcd.setRGB(r, g, b);
