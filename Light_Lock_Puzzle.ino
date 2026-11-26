@@ -27,7 +27,7 @@ static unsigned long holdStart = 0;
 static unsigned long lastPrint = 0;
 static unsigned long stage2Start = 0;
 
-enum Screen { NONE, WAIT, HOLD };
+static enum Screen { NONE, WAIT, HOLD };
 Screen shown = NONE;
 
 void setColor(int r, int g, int b) { lcd.setRGB(r, g, b); }
@@ -75,13 +75,14 @@ void showCountdown(int secs) {
 void setup() {
   Serial.begin(9600);
   lcd.begin(16, 2);
+  lcd.clear();
 }
 
 void loop() {
   // Puzzle solved: nothing more to do until the Arduino is power-cycled
   if (stage == 3) return;
 
-  int light = analogRead(pinLight);
+  int light = analogRead(PIN_LIGHT);
   unsigned long now = millis();
 
   // Print readings twice a second so you can tune the thresholds
@@ -103,7 +104,8 @@ void loop() {
     secsLeft = (remaining + 999) / 1000;
   }
 
-  bool conditionMet = (stage == 1) ? (light <= DARK_THRESHOLD) : (light >= LIGHT_THRESHOLD);
+  bool conditionMet = (stage == 1) ? (light <= DARK_THRESHOLD)
+                                   : (light >= LIGHT_THRESHOLD);
   unsigned long holdMs = (stage == 1) ? COVER_HOLD_MS : LIGHT_HOLD_MS;
 
   if (conditionMet) {

@@ -5,25 +5,16 @@
 // Grove - Button connect to D3
 // Grove - LCD RGB Backlight connect to I2C
 
-#include <Wire.h>
-#include "rgb_lcd.h"
-
-rgb_lcd lcd;
-
-const int pinButton   = 3;                      // pin of button
 const int secretCount = 9;                      // the secret number of presses
 
-int pressCount = 0;                             // how many times the button was pressed
 unsigned long lastRelease = 0;                  // time the button was last released
-
-int puzzleCount = 0;
 
 void setup()
 {
     lcd.begin(16, 2);                           // set up the LCD's number of columns and rows
     lcd.setRGB(0, 0, 255);                      // blue backlight while waiting
 
-    pinMode(pinButton, INPUT);                  // set button INPUT
+    pinMode(PIN_BUTTON, INPUT);                  // set button INPUT
 
     lcd.print("Secret code?");
     lcd.setCursor(0, 1);
@@ -32,7 +23,7 @@ void setup()
 
 void loop()
 {
-    if(digitalRead(pinButton))                  // when button is pressed
+    if(digitalRead(PIN_BUTTON))                  // when button is pressed
     {
         pressCount++;                           // add one press
 
@@ -42,7 +33,7 @@ void loop()
         lcd.print(pressCount);
 
         delay(50);
-        while(digitalRead(pinButton));          // wait until button is released
+        while(digitalRead(PIN_BUTTON));          // wait until button is released
         delay(50);
 
         lastRelease = millis();                 // start the 2 second timer from release
