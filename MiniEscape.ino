@@ -10,19 +10,10 @@
 #include <Servo.h>
 #include <math.h>
 #include "rgb_lcd.h"
+#include "pins.h"
 
 rgb_lcd lcd;
 Servo groveServo;
-
-const int pinTemp = A0; // Temperature sensor in A0
-const int pinDial = A1; // Rotary angle sensor in A1
-const int pinLight = A2; //Light sensor in A2
-const int pinSound = A3; //Sound sensor in A3
-
-const int pinServo = 2; //Servo in D2
-const int pinButton = 3; //Button in D3
-const int pinTouch = 4; //Touch Sensor in D4
-const int pinBuzzer = 8;  // Buzzer pin in D8
 
 int puzzleCount = 0;
 int difficulty = 0; // 0 = Easy, 1 = Medium, 2 = Hard
