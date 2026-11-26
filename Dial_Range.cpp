@@ -212,4 +212,4 @@ static void begin_() {
   }
 }
 
-Puzzle Dial_Range = { begin_ };
+Puzzle Dial_Range = { begin_, update_ };
