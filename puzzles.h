@@ -22,7 +22,7 @@ extern Puzzle Touch_Count;
 extern Puzzle Clapping_Count;
 extern Puzzle Dial_Puzzle;
 extern Puzzle Servo_Code; //??? Change this???
-extern Puzzle Temperature_Puzzle;
+extern Puzzle Angle_Guess;
 extern Puzzle Secret_Press;
 extern Puzzle Light_Lock_Puzzle;
 extern Puzzle Introduction_Diplay; // ??? Change this too? ?
