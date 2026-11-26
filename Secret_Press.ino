@@ -8,6 +8,8 @@
 
 static bool puzzleComplete = false;
 static const int secretCount = 9; // the secret number of presses
+
+int pressCount = 0; // how many times the button was pressed
 static unsigned long lastRelease = 0; // time the button was last released
 
 static void begin_() {
