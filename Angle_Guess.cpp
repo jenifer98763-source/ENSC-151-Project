@@ -128,4 +128,4 @@ static void begin_() {
   delay(50);
 }
 
-Puzzle Angle_Guess = { begin_ };
+Puzzle Angle_Guess = { begin_, update_};
