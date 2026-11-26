@@ -15,17 +15,17 @@
     "Puzzle solved!".
 */
 
-const int DARK_THRESHOLD  = 200;   // stage 1: reading must be at or below this
-const int LIGHT_THRESHOLD = 700;   // stage 2: reading must be at or above this
+static const int DARK_THRESHOLD  = 200;   // stage 1: reading must be at or below this
+static const int LIGHT_THRESHOLD = 700;   // stage 2: reading must be at or above this
 
-const unsigned long COVER_HOLD_MS  = 4000;
-const unsigned long LIGHT_HOLD_MS  = 4000;
-const unsigned long STAGE2_TIME_MS = 10000;  // time allowed to finish stage 2
+static const unsigned long COVER_HOLD_MS  = 4000;
+static const unsigned long LIGHT_HOLD_MS  = 4000;
+static const unsigned long STAGE2_TIME_MS = 10000;  // time allowed to finish stage 2
 
-int stage = 1;                       // 1 = cover, 2 = flashlight, 3 = done
-unsigned long holdStart = 0;
-unsigned long lastPrint = 0;
-unsigned long stage2Start = 0;
+static int stage = 1;                       // 1 = cover, 2 = flashlight, 3 = done
+static unsigned long holdStart = 0;
+static unsigned long lastPrint = 0;
+static unsigned long stage2Start = 0;
 
 enum Screen { NONE, WAIT, HOLD };
 Screen shown = NONE;
