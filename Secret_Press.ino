@@ -3,7 +3,6 @@
 // if the count is right, the led will turn on and the lcd turns green
 // otherwise the lcd turns red and tells you if you pressed too few or too many
 // Grove - Button connect to D3
-// Grove - LED connect to D7
 // Grove - LCD RGB Backlight connect to I2C
 
 #include <Wire.h>
