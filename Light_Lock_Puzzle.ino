@@ -153,3 +153,4 @@ static void update_() {
 
   delay(50);
 }
+Puzzle Light_Lock_Puzzle = { begin_, update_ };
