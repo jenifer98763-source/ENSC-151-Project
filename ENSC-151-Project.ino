@@ -13,26 +13,20 @@ Servo groveServo;
 
 // GAME STATE
 Puzzle* allPuzzles[] = { &Touch_Count, &Clapping_Count, &Light_Lock_Puzzle, 
-                         &Secret_Press, &Dial_Range};
-const int NUM_PUZZLES = 5; // Change depending on how many puzzles are added CHANGE THIS
+                         &Secret_Press, &Dial_Range, &Dial_Range, &Angle_Guess};
+const int NUM_PUZZLES = 6; // Change depending on how many puzzles are added
 
 Puzzle* order[NUM_PUZZLES];   // shuffled puzzles for this game
-int puzzleCount = 0;          // how many to solve (set by difficulty) CHANGE THIS
+int puzzleCount = 0;          // how many to solve (set by difficulty)
 int current = 0;              // index of the active puzzle
 bool gameOver = false;
 int difficulty = 0; // 0 = Easy, 1 = Medium, 2 = Hard
 String names[] = {"Easy", "Medium", "Hard"};
 bool diffSelected = false;
 
-// PLACEHOLDERS (change this)
+// Beep tone
 void beepSuccess() {
   tone(PIN_BUZZER, 1000, 200);
-}
-
-// PLACEHOLDERS (change this)
-void showError(const char* message) {
-  lcd.clear();
-  lcd.print("placeholder");
 }
 
 void showDifficulty() {
