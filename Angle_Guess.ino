@@ -31,14 +31,12 @@ static void showInstructions() {
   lcd.setCursor(0, 1);
   lcd.print("Press btn->next ");
   waitForButtonPress();
-
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("LCD gives hint: ");
   lcd.setCursor(0, 1);
   lcd.print("Higher or Lower ");
   waitForButtonPress();
-
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("5 tries per rnd ");
@@ -48,7 +46,9 @@ static void showInstructions() {
 }
 
 static void begin_() {
-
+  pinMode(PIN_ROTARY, INPUT);
+  pinMode(PIN_BUTTON, INPUT);
+  
   lcd.begin(16, 2);
   lcd.setRGB(255, 255, 255);
   lcd.clear();
@@ -77,7 +77,7 @@ static void begin_() {
   lcd.setCursor(0, 1);
   lcd.print(lastHint);
   
-  //clears lasthint letters and stores new hint in blank variable
+  //clears last hint letters and stores new hint in blank variable
   for (int i = lastHint.length(); i < 16; i++) {
     lcd.print(" ");
   }
@@ -97,12 +97,6 @@ static void begin_() {
         lcd.setCursor(0, 1);
         lcd.print("Target: ");
         lcd.print(targetAngle);
-
-        tone(pinBuzzer, 1000, 180);
-        delay(200);
-        tone(pinBuzzer, 1500, 250);
-        delay(1800);
-
         return;
       }
 
@@ -122,10 +116,8 @@ static void begin_() {
       } else {
         if (angleRange < targetAngle) {
           lastHint = "Higher!         ";
-          tone(pinBuzzer, 700, 120);
         } else {
           lastHint = "Lower!          ";
-          tone(pinBuzzer, 500, 120);
         }
         lcd.setRGB(220, 160, 40);
       }
