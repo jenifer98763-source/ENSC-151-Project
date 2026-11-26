@@ -20,7 +20,7 @@ extern Servo groveServo;
 // The puzzles: each is defined in its own .cpp file
 extern Puzzle Touch_Count;
 extern Puzzle Clapping_Count;
-extern Puzzle Dial_Puzzle;
+extern Puzzle Dial_Range;
 extern Puzzle Servo_Code; //??? Change this???
 extern Puzzle Angle_Guess;
 extern Puzzle Secret_Press;
