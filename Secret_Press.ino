@@ -8,6 +8,8 @@
 
 static bool puzzleComplete = false;
 static const int secretCount = 9;       // the secret number of presses
+static bool unlocked = false; // true once the puzzle is solved
+
 static int pressCount = 0;              // how many times the button was pressed
 static unsigned long lastRelease = 0;   // time the button was last released
 
@@ -20,6 +22,10 @@ static void showPrompt() {
 }
 
 static void begin_() {
+    if (unlocked) {
+        return;
+    }
+    
     pressCount = 0;
     puzzleComplete = false;
 
@@ -50,6 +56,7 @@ static bool update_() {
         lcd.clear();
 
         if (pressCount == secretCount) {
+            unlocked = true;
             lcd.setRGB(0, 255, 0);          // green backlight
             lcd.print("Unlocked!");
             delay(3000);
