@@ -120,7 +120,9 @@ static void update_() {
   unsigned long holdMs = (stage == 1) ? COVER_HOLD_MS : LIGHT_HOLD_MS;
 
   if (conditionMet) {
-    if (holdStart == 0) holdStart = now;
+    if (holdStart == 0) {
+      holdStart = now;
+    }
     unsigned long held = now - holdStart;
 
     if (held >= holdMs) {
@@ -155,7 +157,9 @@ static void update_() {
     }
   }
 
-  if (stage == 2) showCountdown(secsLeft);
+  if (stage == 2) {
+    showCountdown(secsLeft);
+  }
 
   delay(50);
 }
