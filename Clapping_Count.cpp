@@ -14,17 +14,18 @@ static bool wasTouched = false;
 static int buzzCount = 0;
 static int clapCount = 0;
 static bool puzzleComplete = false;
-static int thresholdValue = 300; // sound sensor threshold value
+static int thresholdValue = 600; // sound sensor threshold value
 
 void buzzer(int count);
 
 static void begin_() {
   // Pins setup
-  pinMode(pinSound, INPUT);
-  pinMode(pinBuzzer, OUTPUT);
+  pinMode(PIN_SOUND, INPUT);
+  pinMode(PIN_BUZZER, OUTPUT);
 
   // LCD
   lcd.begin(16, 2);
+  lcd.clear();
   lcd.setRGB(0, 0, 255); // Blue backlight
   lcd.print("Clap the number");
   lcd.setCursor(0, 1);
@@ -37,7 +38,7 @@ static void begin_() {
   delay(2000);
 
   // Randomize buzzer beeps
-  randomSeed(analogRead(A0)); // random seed once, using an unconnected analog pin
+  randomSeed(analogRead(A1) + micros()); // random seed once using a mixed signal
   buzzCount = random(1,16); // 1 to 15
   buzzer(buzzCount);
 
@@ -48,18 +49,18 @@ static void begin_() {
   lcd.print(clapCount);
 }
 
-static void buzzer(int count) {
+void buzzer(int count) {
   for (int i = 0; i < count; i++) {
-      digitalWrite(pinBuzzer, HIGH);
+      digitalWrite(PIN_BUZZER, HIGH);
       delay(200);
-      digitalWrite(pinBuzzer, LOW);
+      digitalWrite(PIN_BUZZER, LOW);
       delay(500);
     }
 }
 
 static bool update_() {
     // Read sound sensor
-    int sensorValue = analogRead(pinSound);
+    int sensorValue = analogRead(PIN_SOUND);
     if (sensorValue > thresholdValue) {
         clapCount++;
         // LCD update
@@ -71,14 +72,14 @@ static bool update_() {
     }
 
     // Read button presses
-    bool pressed = (digitalRead(pinButton) == HIGH);
+    bool pressed = (digitalRead(PIN_BUTTON) == HIGH);
     if (pressed) {
       // Check if counts match up
       if (clapCount == buzzCount) {
             // Complete puzzle if counts match up
             lcd.clear();
             lcd.print("Puzzle complete!");
-            delay(1000);
+            delay(3000);
             puzzleComplete = true;
         } else {
           // Otherwise, try buzzes again

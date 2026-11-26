@@ -30,6 +30,7 @@ static void begin_() {
 
   // LCD
   lcd.begin(16, 2);
+  lcd.clear();
   lcd.setRGB(0, 0, 255); // Blue backlight
   lcd.print("Touch sensor the");
   lcd.setCursor(0, 1);
@@ -42,7 +43,7 @@ static void begin_() {
   delay(2000);
 
   // Randomize buzzer beeps
-  randomSeed(analogRead(A5)); // random seed once, using an unconnected analog pin
+  randomSeed(analogRead(PIN_SOUND) + micros()); // random seed once using a mixed signal
   buzzCount = random(1,16); // 1 to 15
   buzzer(buzzCount);
 
@@ -77,7 +78,7 @@ static bool update_() {
           // Complete puzzle if counts match up
           lcd.clear();
           lcd.print("Puzzle complete!");
-          delay(1000);
+          delay(3000);
           puzzleComplete = true;
       } else {
         // Otherwise, try buzzes again
