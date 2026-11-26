@@ -29,8 +29,10 @@ static unsigned long holdStart = 0;
 static unsigned long lastPrint = 0;
 static unsigned long stage2Start = 0;
 
-enum Screen { NONE, WAIT, HOLD };
-static Screen shown = NONE;
+static const int NONE = 0;
+static const int WAIT = 1;
+static int HOLD = 2;
+static int shown = NONE;
 
 void setColor(int r, int g, int b) { 
   lcd.setRGB(r, g, b);
