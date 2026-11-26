@@ -88,7 +88,7 @@ void loop() {
   // Puzzle solved: nothing more to do until the Arduino is power-cycled
   if (stage == 3) return;
 
-  int light = analogRead(pinLight);
+  int light = analogRead(PIN_LIGHT);
   unsigned long now = millis();
 
   // Print readings twice a second so you can tune the thresholds
