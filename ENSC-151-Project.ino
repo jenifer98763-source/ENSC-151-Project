@@ -12,8 +12,8 @@ rgb_lcd lcd;
 Servo groveServo;
 
 // GAME STATE
-Puzzle* allPuzzles[] = { &Touch_Count, &Light_Lock_Puzzle, &Dial_Puzzle,
-                         &Temperature_Puzzle, &Clapping_Count, &Introduction_Diplay,
+Puzzle* allPuzzles[] = { &Touch_Count, &Light_Lock_Puzzle, &Dial_Range,
+                         &Angle_Guess, &Clapping_Count, &Introduction_Diplay,
                          &Servo_Code, &Secret_Press };
 const int NUM_PUZZLES = 6; // Change depending on how many puzzles are added CHANGE THIS
 
