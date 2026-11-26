@@ -5,7 +5,6 @@
 // Grove - Button connect to D3
 // Grove - LCD RGB Backlight connect to I2C
 
-const int PIN_BUTTON   = 3;                      // pin of button
 const int secretCount = 9;                      // the secret number of presses
 
 unsigned long lastRelease = 0;                  // time the button was last released
