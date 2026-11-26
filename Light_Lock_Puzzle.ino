@@ -17,14 +17,14 @@
 #include "puzzles.h"
 static bool puzzleComplete = false;
 
-static const int DARK_THRESHOLD  = 200;   // stage 1: reading must be at or below this
-static const int LIGHT_THRESHOLD = 700;   // stage 2: reading must be at or above this
+static const int DARK_THRESHOLD  = 200; // stage 1: reading must be at or below this
+static const int LIGHT_THRESHOLD = 700; // stage 2: reading must be at or above this
 
 static const unsigned long COVER_HOLD_MS  = 4000;
 static const unsigned long LIGHT_HOLD_MS  = 4000;
-static const unsigned long STAGE2_TIME_MS = 10000;  // time allowed to finish stage 2
+static const unsigned long STAGE2_TIME_MS = 10000; // time allowed to finish stage 2
 
-static int stage = 1;                       // 1 = cover, 2 = flashlight, 3 = done
+static int stage = 1; // 1 = cover, 2 = flashlight, 3 = done
 static unsigned long holdStart = 0;
 static unsigned long lastPrint = 0;
 static unsigned long stage2Start = 0;
@@ -51,7 +51,7 @@ void completeStage() {
     stage = 2;
     holdStart = 0;
     shown = NONE;
-    stage2Start = millis();          // start the stage 2 clock
+    stage2Start = millis(); // start the stage 2 clock
   } else {
     stage = 3;
     puzzleCount++;
