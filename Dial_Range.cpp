@@ -83,9 +83,9 @@ static void resetPuzzle() {
 
 //Function to delay button press to mitigate human error 
 static void waitForButtonPress() {
-  while (digitalRead(pinButton) == HIGH) delay(10);
-  while (digitalRead(pinButton) == LOW) delay(10);
-  while (digitalRead(pinButton) == HIGH) delay(10);
+  while (digitalRead(PIN_BUTTON) == HIGH) delay(10);
+  while (digitalRead(PIN_BUTTON) == LOW) delay(10);
+  while (digitalRead(PIN_BUTTON) == HIGH) delay(10);
 }
 
 //Function to show initial instructions for puzzle
@@ -130,7 +130,7 @@ static void begin_() {
   waitingForZero = true;
   lcd.clear();
 
-  int angle = analogRead(pinDial);
+  int angle = analogRead(PIN_ROTARY);
 
   if (waitingForZero) {
     reset0(angle);
