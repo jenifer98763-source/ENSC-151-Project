@@ -13,6 +13,12 @@
 
     On completing both stages, the LCD turns green and shows
     "Puzzle solved!".
+    
+  Hardware:
+    - Light sensor on A0
+    - Grove RGB LCD (16x2, I2C)
+
+  Libraries: Wire, rgb_lcd
 */
 
 static const int DARK_THRESHOLD  = 200;   // stage 1: reading must be at or below this
@@ -22,10 +28,10 @@ static const unsigned long COVER_HOLD_MS  = 4000;
 static const unsigned long LIGHT_HOLD_MS  = 4000;
 static const unsigned long STAGE2_TIME_MS = 10000;  // time allowed to finish stage 2
 
-static int stage = 1;                       // 1 = cover, 2 = flashlight, 3 = done
-static unsigned long holdStart = 0;
-static unsigned long lastPrint = 0;
-static unsigned long stage2Start = 0;
+int stage = 1;                       // 1 = cover, 2 = flashlight, 3 = done
+unsigned long holdStart = 0;
+unsigned long lastPrint = 0;
+unsigned long stage2Start = 0;
 
 static enum Screen { NONE, WAIT, HOLD };
 Screen shown = NONE;
@@ -75,9 +81,10 @@ void showCountdown(int secs) {
 void setup() {
   Serial.begin(9600);
   lcd.begin(16, 2);
+  lcd.clear();
 }
 
-static void update_() {
+void loop() {
   // Puzzle solved: nothing more to do until the Arduino is power-cycled
   if (stage == 3) return;
 
@@ -103,7 +110,8 @@ static void update_() {
     secsLeft = (remaining + 999) / 1000;
   }
 
-  bool conditionMet = (stage == 1) ? (light <= DARK_THRESHOLD) : (light >= LIGHT_THRESHOLD);
+  bool conditionMet = (stage == 1) ? (light <= DARK_THRESHOLD)
+                                   : (light >= LIGHT_THRESHOLD);
   unsigned long holdMs = (stage == 1) ? COVER_HOLD_MS : LIGHT_HOLD_MS;
 
   if (conditionMet) {
