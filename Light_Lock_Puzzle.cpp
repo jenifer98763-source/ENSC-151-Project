@@ -54,7 +54,6 @@ void completeStage() {
     stage2Start = millis(); // start the stage 2 clock
   } else {
     stage = 3;
-    puzzleCount++;
     lcd.clear();
     setColor(0, 255, 0);
     lcd.clear();
