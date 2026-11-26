@@ -21,11 +21,9 @@ extern Servo groveServo;
 extern Puzzle Touch_Count;
 extern Puzzle Clapping_Count;
 extern Puzzle Dial_Range;
-extern Puzzle Servo_Code; //??? Change this???
 extern Puzzle Angle_Guess;
 extern Puzzle Secret_Press;
 extern Puzzle Light_Lock_Puzzle;
-extern Puzzle Introduction_Diplay; // ??? Change this too? ?
 
 // Shared helper functions (prototypes only)
 void beepSuccess();                     // short "solved" beep
