@@ -18,9 +18,9 @@ static void startNewRound() {
 
 //accounts for human error when pressing the button (i.e. we can't take our finger off the button very quickly and the computer might register it as 2 button clicks)
 static void waitForButtonPress() {
-  while (digitalRead(pinButton) == HIGH) delay(10); // Wait for any current press to finish
-  while (digitalRead(pinButton) == LOW) delay(10); // Wait for a new button press
-  while (digitalRead(pinButton) == HIGH) delay(10); //// Wait for release so it only triggers once per press
+  while (digitalRead(PIN_BUTTON) == HIGH) delay(10); // Wait for any current press to finish
+  while (digitalRead(PIN_BUTTON) == LOW) delay(10); // Wait for a new button press
+  while (digitalRead(PIN_BUTTON) == HIGH) delay(10); //// Wait for release so it only triggers once per press
 }
 
 //function for all initial instructions
@@ -62,8 +62,8 @@ static void begin_() {
   startNewRound();
 
   //read angle and button state
-  int currentAngle = analogRead(pinDial);
-  int buttonState = digitalRead(pinButton);
+  int currentAngle = analogRead(PIN_ROTARY);
+  int buttonState = digitalRead(PIN_BUTTON);
   int angleRange = map(currentAngle, 0, 1023, 0, 270);
 
   // Current angle and remaining tries
@@ -85,7 +85,7 @@ static void begin_() {
   // Detect new button press
   if (buttonState == HIGH && prevButtonState == LOW) {
     delay(40); 
-    if (digitalRead(pinButton) == HIGH) {
+    if (digitalRead(PIN_BUTTON) == HIGH) {
       int diff = targetAngle - angleRange;
 
       if (abs(diff) <= 5) { //gives buffer zone so that puzzle isn't impossible
