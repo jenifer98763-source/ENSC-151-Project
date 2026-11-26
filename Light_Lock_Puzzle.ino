@@ -13,12 +13,6 @@
 
     On completing both stages, the LCD turns green and shows
     "Puzzle solved!".
-    
-  Hardware:
-    - Light sensor on A0
-    - Grove RGB LCD (16x2, I2C)
-
-  Libraries: Wire, rgb_lcd
 */
 
 static const int DARK_THRESHOLD  = 200;   // stage 1: reading must be at or below this
