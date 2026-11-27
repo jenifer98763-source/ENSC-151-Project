@@ -10,7 +10,6 @@ static const int zeroThreshold = 20; //accepts values close to 0 so code doesn't
 
 // Start all counters and timers at initial positions
 static int stage = 1;
-static int puzzleCount = 0;
 static unsigned long holdStart = 0;
 static bool holding = false;
 static bool waitingForZero = false;
@@ -149,6 +148,7 @@ static bool update_ () {
       lcd.setRGB(40, 90, 200);
     }
     delay(50);
+    return false;
   }
 
   if (inRange(angle, randomMinAngle, randomMaxAngle)) {
@@ -196,6 +196,10 @@ static bool update_ () {
     unsigned long outElapsed = millis() - outOfRangeStart; //calculate time elapsed
     if (outElapsed > timeLimitMS) { //time elapsed > 10 puzzle will reset
       resetPuzzle();
+      waitingForZero = true;
+      delay(500);
+      lcd.clear();
+      return false;
     }
 
     unsigned long remainingSec = (timeLimitMS - outElapsed + 999UL) / 1000UL; //calculate remaining time
@@ -204,12 +208,10 @@ static bool update_ () {
   }
 
   if (stage > totalStages) { //puzzle solved block
-    puzzleCount++;
     lcd.clear();
     lcd.setRGB(40, 200, 140);
     lcd.setCursor(0, 0);
     lcd.print("Puzzle Solved!  ");
-    lcd.setCursor(0, 1);
     puzzleComplete = true;
   }
   return puzzleComplete;
