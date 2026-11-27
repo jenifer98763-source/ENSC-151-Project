@@ -6,8 +6,6 @@ const int pinButton = 3;
 const int B = 4275;
 const long R0 = 100000;
 
-int puzzleCount = 0;
-
 double readTemperatureC() {
   int rawTemp = analogRead(pinTemp);
   if (rawTemp <= 0) {
@@ -69,7 +67,6 @@ void loop() {
 
       if (temperatureC >= randomMinTemp && temperatureC <= randomMaxTemp) {
         puzzleSolved = true;
-        puzzleCount++;
 
         tone(pinBuzzer, 2000, 50);
         delay(80);
