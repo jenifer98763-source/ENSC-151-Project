@@ -18,7 +18,7 @@ static void showPrompt() {
     lcd.clear();
     lcd.print("Press the button");
     lcd.setCursor(0, 1);
-    lcd.print("1-10 times");
+    lcd.print("1–10 times");
 }
 
 static void begin_() {
