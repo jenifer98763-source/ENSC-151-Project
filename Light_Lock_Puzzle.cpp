@@ -34,10 +34,6 @@ static const int WAIT = 1;
 static int HOLD = 2;
 static int shown = NONE;
 
-void setColor(int r, int g, int b) { 
-  lcd.setRGB(r, g, b);
-}
-
 void printLine(int row, String text) {
   while (text.length() < 16) text += ' ';
   lcd.setCursor(0, row);
@@ -46,7 +42,7 @@ void printLine(int row, String text) {
 
 void completeStage() {
   if (stage == 1) {
-    setColor(0, 255, 0);
+    lcd.setRGB(0, 255, 0);
     printLine(0, "Stage 1 clear!");
     printLine(1, "Now... light!");
     delay(1500);
@@ -61,7 +57,7 @@ void completeStage() {
 }
 
 void timeUp() {
-  setColor(255, 0, 0);
+  lcd.setRGB(255, 0, 0);
   printLine(0, "Time's up!");
   printLine(1, "Start over...");
   delay(2000);
@@ -124,7 +120,7 @@ static bool update_() {
       return false;
     }
 
-    setColor(255, 180, 0);
+    lcd.setRGB(255, 180, 0);
 
     if (shown != HOLD) {
       printLine(0, (stage == 1) ? "1/2 Hold it..." : "2/2 Hold it...");
@@ -139,7 +135,7 @@ static bool update_() {
     holdStart = 0;
 
     if (shown != WAIT) {
-      setColor(255, 0, 0);
+      lcd.setRGB(255, 0, 0);
       if (stage == 1) {
         printLine(0, "1/2 Too bright!");
         printLine(1, "Cover the sensor");
@@ -159,7 +155,7 @@ static bool update_() {
 
   if (puzzleComplete) {
     lcd.clear();
-    setColor(0, 255, 0);
+    lcd.setRGB(0, 255, 0);
     lcd.clear();
     lcd.print("Puzzle solved!");
     return puzzleComplete;
