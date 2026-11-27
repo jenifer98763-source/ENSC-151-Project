@@ -5,7 +5,7 @@ static int randomMinAngle = 300;
 static int randomMaxAngle = 700;
 static const int totalStages = 3;
 static const unsigned long holdMS = 1500; //keep angle sensor on value for 1.5s to verify
-static const unsigned long timeLimitMS = 10000; 
+static const unsigned long timeLimitMS = 5000; 
 static const int zeroThreshold = 20; //accepts values close to 0 so code doesn't get stuck
 
 // Start all counters and timers at initial positions
@@ -81,6 +81,7 @@ static void resetPuzzle() {
   lcd.print("Out of range!   ");
   lcd.setCursor(0, 1);
   lcd.print("Restarting...   ");
+  delay (3000);
 }
 
 //Function to delay button press to mitigate human error 
@@ -96,15 +97,15 @@ static void showInstructions() {
   lcd.setCursor(0, 0);
   lcd.print("Turn dial to be");
   lcd.setCursor(0, 1);
-  lcd.print("in range. cont->");
-  waitForButtonPress();
+  lcd.print("in range.");
+  delay(3000);
 
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Hold for 1.5s");
   lcd.setCursor(0, 1);
   lcd.print("Solve 3 stages");
-  waitForButtonPress();
+  delay(3000);
 
   lcd.clear();
   lcd.setCursor(0, 0);
@@ -116,6 +117,7 @@ static void showInstructions() {
 
 //Main function
 static void begin_() {
+  puzzleComplete = false;
   pinMode(PIN_ROTARY, INPUT);
   pinMode(PIN_BUTTON, INPUT);
 
@@ -135,6 +137,9 @@ static void begin_() {
 
 static bool update_ () {
 
+  if (puzzleComplete) {
+    return true;
+  }
   int angle = analogRead(PIN_ROTARY);
 
   if (waitingForZero) {
@@ -165,8 +170,7 @@ static bool update_ () {
     lcd.setRGB(40, 180, 90);
     valueScreen(angle, true, percentage, 0); 
 
-    //dial at correct angle for >1.5s, trigger stage clear. Reset angle to 0.
-    if (elapsed >= holdMS) {
+    if (elapsed >= holdMS) { //dial at correct angle for >1.5s, trigger stage clear. Reset angle to 0.
       holding = false;
       outOfRangeStart = 0;
 
@@ -175,15 +179,19 @@ static bool update_ () {
       lcd.print("Stage ");
       lcd.print(stage);
       lcd.print(" Cleared!");
-      lcd.setCursor(0, 1);
-      lcd.print("Press btn to cont");
-      waitForButtonPress();
+      delay(3000);
 
       stage++;
       lcd.clear();
 
       if (stage <= totalStages) {
         waitingForZero = true;
+      } else {
+        lcd.clear();
+        lcd.setRGB(40, 200, 140);
+        lcd.setCursor(0, 0);
+        lcd.print("Puzzle Solved!  ");
+        puzzleComplete = true;
       }
     }
   } else {
@@ -207,13 +215,6 @@ static bool update_ () {
     valueScreen(angle, false, 0, remainingSec);
   }
 
-  if (stage > totalStages) { //puzzle solved block
-    lcd.clear();
-    lcd.setRGB(40, 200, 140);
-    lcd.setCursor(0, 0);
-    lcd.print("Puzzle Solved!  ");
-    puzzleComplete = true;
-  }
   return puzzleComplete;
 }
 
