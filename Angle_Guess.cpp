@@ -104,6 +104,7 @@ static bool update_ () {
         lcd.print("Target: ");
         lcd.print(targetAngle);
         puzzleComplete = true;
+        return true;
       }
 
       triesLeft--; ////if not within target range, one less guess left
