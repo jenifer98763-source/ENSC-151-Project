@@ -124,7 +124,7 @@ static void begin_() {
   newRange();
 
   lcd.begin(16, 2);
-  lcd.setRGB(40, 90, 200);
+  lcd.setRGB(0, 0, 255);
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Dial Puzzle     ");
@@ -136,10 +136,6 @@ static void begin_() {
 }
 
 static bool update_ () {
-
-  if (puzzleComplete) {
-    return true;
-  }
   int angle = analogRead(PIN_ROTARY);
 
   if (waitingForZero) {
